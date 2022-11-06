@@ -1,58 +1,58 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
 
-router.get('/', async (req, res) => {
-    //find all users
-    try {
-        const userData = await User.findAll({
-            attributes: { exclude: ['password'] },
-            include: [
-            {
-                model: Post,
-            },
-            {
-                model: Comment,
-            }
-        ]
-        });
+// router.get('/', async (req, res) => {
+//     //find all users
+//     try {
+//         const userData = await User.findAll({
+//             attributes: { exclude: ['password'] },
+//             include: [
+//             {
+//                 model: Post,
+//             },
+//             {
+//                 model: Comment,
+//             }
+//         ]
+//         });
 
-        const users = userData.map((data) => data.get({ plain: true }));
+//         const users = userData.map((data) => data.get({ plain: true }));
 
-        console.log(users);
+//         console.log(users);
 
-        res.status(200).json(users);
-    } catch (err) {
-        res.status(400).json(err);
-    }
-})
+//         res.status(200).json(users);
+//     } catch (err) {
+//         res.status(400).json(err);
+//     }
+// })
 
-router.get('/:id', async (req, res) => {
-    //find user by id
-    try {
-        const userData = await User.findByPk(req.params.id,
-            {
-                attributes: { exclude: ['password'] },
-                include: [
-                    {
-                        model: Post,
-                    },
-                    {
-                        model: Comment,
-                    }
-                ]
-            }
-        );
+// router.get('/:id', async (req, res) => {
+//     //find user by id
+//     try {
+//         const userData = await User.findByPk(req.params.id,
+//             {
+//                 attributes: { exclude: ['password'] },
+//                 include: [
+//                     {
+//                         model: Post,
+//                     },
+//                     {
+//                         model: Comment,
+//                     }
+//                 ]
+//             }
+//         );
 
-        if (userData === null) {
-            res.status(404).json(err);
-        } else {
-            const user = userData.get({ plain: true });
-            res.status(200).json(user);
-        }
-    } catch (err) {
-        res.status(500).json(err);
-    }
-})
+//         if (userData === null) {
+//             res.status(404).json(err);
+//         } else {
+//             const user = userData.get({ plain: true });
+//             res.status(200).json(user);
+//         }
+//     } catch (err) {
+//         res.status(500).json(err);
+//     }
+// })
 
 router.post('/create', async (req, res) => {
     try {
@@ -74,18 +74,14 @@ router.post('/login', async (req, res) => {
         const userData = await User.findOne({ where: { email: req.body.email } });
 
         if (!userData) {
-            res
-            .status(400)
-            .json({ message: 'Incorrect email or password, please try again' });
+            res.status(400).json({ message: '(Email not found) Incorrect email or password, please try again' });
             return;
         }
 
         const validPassword = await userData.checkPassword(req.body.password);
 
         if (!validPassword) {
-            res
-            .status(400)
-            .json({ message: 'Incorrect email or password, please try again' });
+            res.status(400).json({ message: 'Incorrect email or password, please try again' });
             return;
         }
 
@@ -101,14 +97,14 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/logout', (req, res) => {
-    if (req.session.logged_in) {
-        req.session.destroy(() => {
-            res.status(204).end();
-        });
-    } else {
-        res.status(404).end();
-    }
-});
+// router.post('/logout', (req, res) => {
+//     if (req.session.logged_in) {
+//         req.session.destroy(() => {
+//             res.status(204).end();
+//         });
+//     } else {
+//         res.status(404).end();
+//     }
+// });
 
 module.exports = router;
