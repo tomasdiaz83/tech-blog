@@ -1,59 +1,6 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
 
-// router.get('/', async (req, res) => {
-//     //find all users
-//     try {
-//         const userData = await User.findAll({
-//             attributes: { exclude: ['password'] },
-//             include: [
-//             {
-//                 model: Post,
-//             },
-//             {
-//                 model: Comment,
-//             }
-//         ]
-//         });
-
-//         const users = userData.map((data) => data.get({ plain: true }));
-
-//         console.log(users);
-
-//         res.status(200).json(users);
-//     } catch (err) {
-//         res.status(400).json(err);
-//     }
-// })
-
-// router.get('/:id', async (req, res) => {
-//     //find user by id
-//     try {
-//         const userData = await User.findByPk(req.params.id,
-//             {
-//                 attributes: { exclude: ['password'] },
-//                 include: [
-//                     {
-//                         model: Post,
-//                     },
-//                     {
-//                         model: Comment,
-//                     }
-//                 ]
-//             }
-//         );
-
-//         if (userData === null) {
-//             res.status(404).json(err);
-//         } else {
-//             const user = userData.get({ plain: true });
-//             res.status(200).json(user);
-//         }
-//     } catch (err) {
-//         res.status(500).json(err);
-//     }
-// })
-
 router.post('/create', async (req, res) => {
     try {
         const userData = await User.create(req.body);

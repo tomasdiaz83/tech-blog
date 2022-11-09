@@ -1,5 +1,5 @@
 <div class="text-center">
-  <h2>{{title}}</h2>
+  <h2  id="post-ID-Data" data-postid="{{id}}">{{title}}</h2>
   <p>{{content}}</p>
   <p>Created by {{user.name}} on {{format_date date_created}}</p>
   {{#each comments as |comment| }}
@@ -16,19 +16,17 @@
   {{/each}}
 </div>
 
-{{!-- New Comment Form --}}
-
+{{#if logged_in}}
 <div>
     <h3>Add a Comment:</h3>
 
-    <form class="form new-comment-form">
+    <form class="form new-comment-form" id="newComment">
       <div class="form-group">
         <textarea class="form-input" id="comment-content" name="comment-content"></textarea>
-      </div>
-      <div class="form-group">
         <button type="submit" class="btn btn-primary">Add</button>
       </div>
     </form>
 </div>
+{{/if}}
 
-<script src="./js/comment.js"></script>
+<script src="/js/comment.js"></script>
